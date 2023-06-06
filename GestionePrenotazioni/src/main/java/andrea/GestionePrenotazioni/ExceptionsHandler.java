@@ -20,10 +20,10 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.NOT_FOUND);
 	}
 
-//	@ExceptionHandler(Exception.class)
-//	public ResponseEntity<ErrorsPayload> handleGenericErrors(Exception e) {
-//		System.out.println(e);
-//		ErrorsPayload payload = new ErrorsPayload("GENERIC SERVER ERROR! WE GONNA FIX IT ASAP!", new Date(), 500);
-//		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.INTERNAL_SERVER_ERROR);
-//	}
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorsPayload> handleGenericErrors(Exception e) {
+		System.out.println(e);
+		ErrorsPayload payload = new ErrorsPayload("GENERIC SERVER ERROR! WE GONNA FIX IT ASAP!", new Date(), 500);
+		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }
