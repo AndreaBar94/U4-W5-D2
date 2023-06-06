@@ -11,8 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import andrea.GestionePrenotazioni.exceptions.ErrorsPayload;
 import andrea.GestionePrenotazioni.exceptions.NotFoundException;
 
-
-
 @RestControllerAdvice
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 
