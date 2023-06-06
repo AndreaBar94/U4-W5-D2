@@ -17,22 +17,17 @@ public class InfoControllerTest {
 
     @Test
     public void testHomeEndpoint() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/info"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().string("Inserisci /it per le info in italiano || Insert /en for english language info"));
-    }
-
-    @Test
-    public void testHomeItEndpoint() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/info/it"))
+       
+        mockMvc.perform(MockMvcRequestBuilders.get("/info?lang=it"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Benvenuto, a seguire le regole per la prenotazione: ..."));
-    }
 
-    @Test
-    public void testHomeEnEndpoint() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/info/en"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/info?lang=en"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string("Welcome, here you are our reservation rules: ..."));
+        
+        mockMvc.perform(MockMvcRequestBuilders.get("/info"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().string("Benvenuto, a seguire le regole per la prenotazione: ..."));
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import andrea.GestionePrenotazioni.exceptions.ErrorsPayload;
 import andrea.GestionePrenotazioni.exceptions.NotFoundException;
+import andrea.GestionePrenotazioni.exceptions.UnsupportedLanguageException;
 
 @RestControllerAdvice
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
@@ -19,7 +20,13 @@ public class ExceptionsHandler extends ResponseEntityExceptionHandler {
 		ErrorsPayload payload = new ErrorsPayload(e.getMessage(), new Date(), 404);
 		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.NOT_FOUND);
 	}
-
+	
+	  @ExceptionHandler(UnsupportedLanguageException.class)
+	    public ResponseEntity<ErrorsPayload> handleUnsupportedLanguage(UnsupportedLanguageException e) {
+	        ErrorsPayload payload = new ErrorsPayload("Unsupported language: " + e.getLanguage(), new Date(), 400);
+	        return new ResponseEntity<>(payload, HttpStatus.BAD_REQUEST);
+	    }
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorsPayload> handleGenericErrors(Exception e) {
 		System.out.println(e);
