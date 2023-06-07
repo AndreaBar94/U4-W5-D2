@@ -27,8 +27,8 @@ public class PrenotazioniService {
 	@Autowired
 	private PrenotazioniRepository prenotazioniRepo;
 
-	public Prenotazione create(Prenotazione p) {
-		return prenotazioniRepo.save(p);
+	public Prenotazione create(Prenotazione prenotazione) {
+		return prenotazioniRepo.save(prenotazione);
 	}
 	
 	public Page<Prenotazione> find(int page, int size, String sortedBy){

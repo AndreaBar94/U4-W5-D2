@@ -5,12 +5,14 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import andrea.GestionePrenotazioni.entities.Prenotazione;
 import andrea.GestionePrenotazioni.services.PostazioniService;
 import andrea.GestionePrenotazioni.services.PrenotazioniService;
 import andrea.GestionePrenotazioni.services.UsersService;
 
+@Component
 public class PrenotazioniRunner implements CommandLineRunner {
 	
 	@Autowired
