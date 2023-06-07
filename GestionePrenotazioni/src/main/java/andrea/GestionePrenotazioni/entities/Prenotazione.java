@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 public class Prenotazione {
 	
+	private int id;
 	private User user;
 	private Postazione postazione;
 	private LocalDate dataPrenotata;
