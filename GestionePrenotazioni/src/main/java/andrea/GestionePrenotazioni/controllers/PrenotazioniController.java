@@ -1,12 +1,10 @@
 package andrea.GestionePrenotazioni.controllers;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,56 +16,52 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import andrea.GestionePrenotazioni.entities.User;
-import andrea.GestionePrenotazioni.exceptions.NotFoundException;
-import andrea.GestionePrenotazioni.payloads.UserRegistrationPayload;
-import andrea.GestionePrenotazioni.services.UsersService;
+import andrea.GestionePrenotazioni.entities.Prenotazione;
 
+import andrea.GestionePrenotazioni.services.PrenotazioniService;
 
 @RestController
-@RequestMapping("/users")
-public class UsersController {
-	
-	@Autowired
-	UsersService usersService;
+@RequestMapping("/prenotazioni")
+public class PrenotazioniController {
 
-	// 1. - GET http://localhost:3001/users (+opzionalmente query params) <-- READ
+	@Autowired
+	PrenotazioniService prenotazioniService;
+
 	@GetMapping("")
-	public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
+	public Page<Prenotazione> getPrenotazioni(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size,
 			@RequestParam(defaultValue = "id") String sortedBy){
-		return usersService.find(page, size, sortedBy);
+		return prenotazioniService.find(page, size, sortedBy);
 	}
 
 	// 2. - POST http://localhost:3001/users (+ req.body) <-- CREATE
 	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED) // <-- 201 CREATED
-	public User saveUser(@RequestBody @Validated UserRegistrationPayload body) {
-		return usersService.create(body);
+	public Prenotazione savePrenotazioni(@RequestBody Prenotazione body) {
+		return prenotazioniService.create(body);
 	}
 
 	// 3. - GET http://localhost:3001/users/:userId <-- READ
-	@GetMapping("/{userId}")
-	public User findById(@PathVariable UUID userId) throws Exception {
+	@GetMapping("/{prenotazioneId}")
+	public Prenotazione findById(@PathVariable UUID prenotazioneId) throws Exception {
 
-		return usersService.findById(userId);
+		return prenotazioniService.findById(prenotazioneId);
 	}
 
 	
 	// 4. - PUT http://localhost:3001/users/:userId (+ req.body) <-- UPDATE
-	@PutMapping("/{userId}")
-	public User findByIdAndUpdate(@PathVariable UUID userId, @RequestBody User body) throws Exception {
+	@PutMapping("/{prenotazioneId}")
+	public Prenotazione findByIdAndUpdate(@PathVariable UUID prenotazioneId, @RequestBody Prenotazione body) throws Exception {
 
-		return usersService.findByIdAndUpdate(userId, body);
+		return prenotazioniService.findByIdAndUpdate(prenotazioneId, body);
 	}
 
 	// 5. - DELETE http://localhost:3001/users/:userId <-- DELETE
-	@DeleteMapping("/{userId}")
+	@DeleteMapping("/{prenotazioneId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT) // <-- 204 NO CONTENT
-	public void findByIdAndDelete(@PathVariable UUID userId) throws Exception {
+	public void findByIdAndDelete(@PathVariable UUID prenotazioneId) throws Exception {
 
-		usersService.findByIdAndDelete(userId);
+		prenotazioniService.findByIdAndDelete(prenotazioneId);
 	}
 
 }
-

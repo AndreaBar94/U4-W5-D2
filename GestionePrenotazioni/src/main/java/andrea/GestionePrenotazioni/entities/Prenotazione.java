@@ -1,12 +1,32 @@
 package andrea.GestionePrenotazioni.entities;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "prenotazioni")
+@Data
+@NoArgsConstructor
 public class Prenotazione {
 	
-	private int id;
+	@Id
+	@GeneratedValue
+	private UUID id;
+	
+	@ManyToOne
 	private User user;
+	
+	@ManyToOne
 	private Postazione postazione;
+	
 	private LocalDate dataPrenotata;
 	private LocalDate dataPrenotazione;
 	

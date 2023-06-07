@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.github.javafaker.Faker;
 
-import andrea.GestionePrenotazioni.entities.User;
+import andrea.GestionePrenotazioni.payloads.UserRegistrationPayload;
 import andrea.GestionePrenotazioni.services.UsersService;
 
 
@@ -21,12 +21,15 @@ public class UsersRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		Faker faker = new Faker(new Locale("it"));
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 100; i++) {
 			String name = faker.name().firstName();
 			String surname = faker.name().lastName();
 			String email = faker.internet().emailAddress();
-			User user = new User(name, surname, email);
-			usersService.create(user);
+			UserRegistrationPayload user = new UserRegistrationPayload();
+			user.setName(name);
+			user.setSurname(surname);
+			user.setEmail(email);
+			//usersService.create(user);
 		}
 
 	}

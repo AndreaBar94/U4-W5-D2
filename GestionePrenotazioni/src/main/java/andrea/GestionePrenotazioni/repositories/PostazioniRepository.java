@@ -1,14 +1,13 @@
 package andrea.GestionePrenotazioni.repositories;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import andrea.GestionePrenotazioni.entities.User;
+import andrea.GestionePrenotazioni.entities.Postazione;
 
 @Repository
-public interface UsersRepository extends JpaRepository<User, UUID>{
-	Optional<User> findByEmail(String email);
+public interface PostazioniRepository extends JpaRepository<Postazione, UUID>{
+
 }

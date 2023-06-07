@@ -1,5 +1,6 @@
 package andrea.GestionePrenotazioni.services;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
@@ -8,9 +9,15 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import andrea.GestionePrenotazioni.entities.User;
+import andrea.GestionePrenotazioni.exceptions.BadRequestException;
+import andrea.GestionePrenotazioni.payloads.UserRegistrationPayload;
 import andrea.GestionePrenotazioni.repositories.UsersRepository;
 
 
@@ -21,14 +28,23 @@ public class UsersService {
 	@Autowired
 	private UsersRepository usersRepo;
 
-	public User create(User u) {
-		//check if email is correct
-		
-		return usersRepo.save(u);
+	public User create(UserRegistrationPayload u) {
+		//check if email already exist
+		usersRepo.findByEmail(u.getEmail()).ifPresent(user -> 
+		{throw new BadRequestException("Email " + u.getEmail() + " already exist");
+		});
+		User newUser = new User(u.getName(), u.getSurname(), u.getEmail());
+		return usersRepo.save(newUser);
 	}
 	
-	public List<User> find(){
-		return usersRepo.findAll();
+	public Page<User> find(int page, int size, String sortedBy){
+		if (size < 0)
+			size = 10;
+		if (size > 100)
+			size = 100;
+		Pageable pageable = PageRequest.of(page, size, Sort.by(sortedBy));
+		
+		return usersRepo.findAll(pageable);
 	}
 	
 	public User findById(UUID id) throws Exception{
