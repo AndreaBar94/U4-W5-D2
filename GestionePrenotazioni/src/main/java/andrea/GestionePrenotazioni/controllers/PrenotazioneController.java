@@ -16,7 +16,7 @@ public class PrenotazioneController {
 //		data: "2023/04/04"
 //	}
 //	- controllare che la prenotazione stia avvenendo prima di 2gg dalla data
-//	- controllare che la postazione risulti libera per quella giornata
-//  - controllare che l'utente non abbia già una prenotazione per quella giornata
+//	- controllare che la postazione risulti libera per quella giornata es SELECT * FROM Prenotazioni WHERE data = :data AND idPostazione = :idPostazione
+//  - controllare che l'utente non abbia già una prenotazione per quella giornata  SELECT * FROM Prenotazioni WHERE data = :data AND idUtente = :idUtente
 
 }

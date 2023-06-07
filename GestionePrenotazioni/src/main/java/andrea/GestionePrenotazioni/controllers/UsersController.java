@@ -1,6 +1,7 @@
 package andrea.GestionePrenotazioni.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,6 @@ import andrea.GestionePrenotazioni.exceptions.NotFoundException;
 import andrea.GestionePrenotazioni.services.UsersService;
 
 
-
-
 @RestController
 @RequestMapping("/users")
 public class UsersController {
@@ -31,35 +30,38 @@ public class UsersController {
 	// 1. - GET http://localhost:3001/users (+opzionalmente query params) <-- READ
 	@GetMapping("")
 	public List<User> getUsers(){
-		return usersService.getUsers();
+		return usersService.find();
 	}
 
 	// 2. - POST http://localhost:3001/users (+ req.body) <-- CREATE
 	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED) // <-- 201 CREATED
 	public User saveUser(@RequestBody User body) {
-		User createdUser = usersService.saveNewUser(body);
+		User createdUser = usersService.create(body);
 		return createdUser;
 	}
 
 	// 3. - GET http://localhost:3001/users/:userId <-- READ
 	@GetMapping("/{userId}")
-	public User findById(@PathVariable int userId) {
-		return usersService.findUserById(userId).orElseThrow(() -> new NotFoundException(userId));
+	public User findById(@PathVariable UUID userId) throws Exception {
+
+		return usersService.findById(userId);
 	}
 
 	
 	// 4. - PUT http://localhost:3001/users/:userId (+ req.body) <-- UPDATE
 	@PutMapping("/{userId}")
-	public User findByIdAndUpdate(@PathVariable int userId, @RequestBody User body) {
-		return usersService.findUserByIdAndUpdate(userId, body).orElseThrow(() -> new NotFoundException(userId));
+	public User findByIdAndUpdate(@PathVariable UUID userId, @RequestBody User body) throws Exception {
+
+		return usersService.findByIdAndUpdate(userId, body);
 	}
 
 	// 5. - DELETE http://localhost:3001/users/:userId <-- DELETE
 	@DeleteMapping("/{userId}")
 	@ResponseStatus(HttpStatus.NO_CONTENT) // <-- 204 NO CONTENT
-	public void findByIdAndDelete(@PathVariable int userId) {
-		usersService.findUserByIdAndDelete(userId).orElseThrow(() -> new NotFoundException(userId));
+	public void findByIdAndDelete(@PathVariable UUID userId) throws Exception {
+
+		usersService.findByIdAndDelete(userId);
 	}
 
 }

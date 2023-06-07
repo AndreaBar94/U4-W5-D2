@@ -9,5 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostazioniController {
 	
 //	@GetMapping("")// con /postazioni?tipo&citta
-//	return String
+//	return Postazione
 }
