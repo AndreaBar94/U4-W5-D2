@@ -1,9 +1,5 @@
 package andrea.GestionePrenotazioni.services;
 
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import andrea.GestionePrenotazioni.entities.Postazione;
 import andrea.GestionePrenotazioni.entities.Prenotazione;
-import andrea.GestionePrenotazioni.entities.User;
-import andrea.GestionePrenotazioni.repositories.PostazioniRepository;
 import andrea.GestionePrenotazioni.repositories.PrenotazioniRepository;
 
 

@@ -2,6 +2,8 @@ package andrea.GestionePrenotazioni.entities;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import andrea.GestionePrenotazioni.payloads.UserRegistrationPayload;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,6 +30,7 @@ public class Postazione {
 	private TipoPostazione tipo;
 	
 	@ManyToOne
+	@JsonIgnore
 	private User user;
 	
 	public Postazione(String codice, String descrizione, int numeroMassimoOccupanti, TipoPostazione tipo, User user) {

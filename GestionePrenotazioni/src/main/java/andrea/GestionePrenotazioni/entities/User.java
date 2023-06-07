@@ -3,6 +3,8 @@ package andrea.GestionePrenotazioni.entities;
 import java.util.List;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -25,9 +27,11 @@ public class User {
 	private String email;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<Prenotazione> prenotazioni;
 	
 	@OneToMany(mappedBy = "user")
+	@JsonIgnore
 	private List<Postazione> postazioni;
 	
 	public User(String name, String surname, String email) {

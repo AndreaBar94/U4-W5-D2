@@ -3,6 +3,8 @@ package andrea.GestionePrenotazioni.entities;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -25,6 +27,7 @@ public class Prenotazione {
 	private User user;
 	
 	@ManyToOne
+	@JsonIgnore
 	private Postazione postazione;
 	
 	private LocalDate dataPrenotata;
