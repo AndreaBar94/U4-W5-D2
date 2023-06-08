@@ -1,5 +1,6 @@
 package andrea.GestionePrenotazioni.controllers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class PrenotazioniController {
 	@Autowired
 	PrenotazioniService prenotazioniService;
 
-	@GetMapping("")
+	@GetMapping("")//aggiungo controllo per user
 	public Page<Prenotazione> getPrenotazioni(@RequestParam(defaultValue = "0") int page,
 			@RequestParam(defaultValue = "5") int size,
 			@RequestParam(defaultValue = "id") String sortedBy){
@@ -48,6 +49,10 @@ public class PrenotazioniController {
 		return prenotazioniService.findById(prenotazioneId);
 	}
 
+	@GetMapping("/user/{userId}")
+	public List<Prenotazione> getPrenotazioniByUserEmail(@PathVariable String email) {
+	    return prenotazioniService.findByUserEmail(email);
+	}
 	
 	// 4. - PUT http://localhost:3001/users/:userId (+ req.body) <-- UPDATE
 	@PutMapping("/{prenotazioneId}")

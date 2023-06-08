@@ -1,5 +1,6 @@
 package andrea.GestionePrenotazioni.services;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ public class PrenotazioniService {
 	
 	public Prenotazione findById(UUID id) throws Exception{
 		return prenotazioniRepo.findById(id).orElseThrow(()-> new Exception("Prenotazione non trovata"));
+	}
+	
+	public List<Prenotazione> findByUserEmail(String email) {
+	    return prenotazioniRepo.findByUserEmail(email);
 	}
 	
 	public Prenotazione findByIdAndUpdate(UUID id, Prenotazione p) throws Exception {

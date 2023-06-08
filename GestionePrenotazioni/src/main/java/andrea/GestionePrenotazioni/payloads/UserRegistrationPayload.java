@@ -18,4 +18,6 @@ public class UserRegistrationPayload {
 	@NotNull
 	@Email(message="Inserisci un indirizzo email valido")
 	String email;
+	@NotNull(message = "La password è obbligatoria")
+	String password;
 }

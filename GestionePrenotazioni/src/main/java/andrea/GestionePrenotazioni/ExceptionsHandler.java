@@ -14,20 +14,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import andrea.GestionePrenotazioni.exceptions.BadRequestException;
 import andrea.GestionePrenotazioni.exceptions.ErrorsPayload;
 import andrea.GestionePrenotazioni.exceptions.NotFoundException;
+import andrea.GestionePrenotazioni.exceptions.UnauthorizedException;
 import andrea.GestionePrenotazioni.exceptions.UnsupportedLanguageException;
 
 @RestControllerAdvice
 public class ExceptionsHandler extends ResponseEntityExceptionHandler {
-//	
-//	@ExceptionHandler(MethodArgumentNotValidException.class)
-//	public ResponseEntity<ErrorsPayload> handleValidationErrors(MethodArgumentNotValidException ex) {
-//		List<String> errors = ex.getBindingResult().getFieldErrors().stream().map(error -> error.getDefaultMessage())
-//				.collect(Collectors.toList());
-//
-//		ErrorsPayload payload = new ErrorsPayload(errors.get(0), new Date(), 400);
-//
-//		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.BAD_REQUEST);
-//	}
+	
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<ErrorsPayload> handleUnauthorized(UnauthorizedException e) {
+
+		ErrorsPayload payload = new ErrorsPayload(e.getMessage(), new Date(), 401);
+
+		return new ResponseEntity<ErrorsPayload>(payload, HttpStatus.UNAUTHORIZED);
+	}
 
 	@ExceptionHandler(NotFoundException.class)
 	public ResponseEntity<ErrorsPayload> handleNotFound(NotFoundException e) {

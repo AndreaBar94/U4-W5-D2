@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import andrea.GestionePrenotazioni.entities.User;
 import andrea.GestionePrenotazioni.exceptions.BadRequestException;
+import andrea.GestionePrenotazioni.exceptions.NotFoundException;
 import andrea.GestionePrenotazioni.payloads.UserRegistrationPayload;
 import andrea.GestionePrenotazioni.repositories.UsersRepository;
 
@@ -33,7 +34,7 @@ public class UsersService {
 		usersRepo.findByEmail(u.getEmail()).ifPresent(user -> 
 		{throw new BadRequestException("Email " + u.getEmail() + " already exist");
 		});
-		User newUser = new User(u.getName(), u.getSurname(), u.getEmail());
+		User newUser = new User(u.getName(), u.getSurname(), u.getEmail(), u.getPassword());
 		return usersRepo.save(newUser);
 	}
 	
@@ -45,6 +46,10 @@ public class UsersService {
 		Pageable pageable = PageRequest.of(page, size, Sort.by(sortedBy));
 		
 		return usersRepo.findAll(pageable);
+	}
+	
+	public User findByEmail(String email) throws NotFoundException {
+		return usersRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("Nessun utente trovato con questa email"));
 	}
 	
 	public User findById(UUID id) throws Exception{

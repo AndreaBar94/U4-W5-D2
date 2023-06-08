@@ -25,10 +25,12 @@ public class UsersRunner implements CommandLineRunner {
 			String name = faker.name().firstName();
 			String surname = faker.name().lastName();
 			String email = faker.internet().emailAddress();
+			String password = faker.internet().password();
 			UserRegistrationPayload user = new UserRegistrationPayload();
 			user.setName(name);
 			user.setSurname(surname);
 			user.setEmail(email);
+			user.setPassword(password);
 			//usersService.create(user);
 		}
 
