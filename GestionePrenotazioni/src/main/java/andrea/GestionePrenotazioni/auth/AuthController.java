@@ -37,8 +37,8 @@ public class AuthController {
 	
 	@Autowired
 	UsersService usersService;
-	@Autowired
-	PrenotazioniService prenotazioniService;
+//	@Autowired
+//	PrenotazioniService prenotazioniService;
 	
 	@PostMapping("/register")
 	public ResponseEntity<User> register(@RequestBody @Validated UserRegistrationPayload body) {
@@ -61,17 +61,18 @@ public class AuthController {
 		return new ResponseEntity<>(new AuthenticationSuccessfullPayload(token), HttpStatus.OK);
 	}
 	
-	@GetMapping("/prenotazioniutente")
-	public List<Prenotazione> getPrenotazioniUtente(@RequestHeader("Authorization") String token) {
-	    try {
-	        JWTTools.isTokenValid(token);
-	        String userEmail = JWTTools.extractSubject(token);
-	        List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(userEmail);
-	        return prenotazioni;
-	    } catch (Exception e) {
-	        // Gestione dell'eccezione
-	    }
-	    return new ArrayList<>(); // In caso di errore, ritorna una lista vuota
-	}
+//	@GetMapping("/prenotazioniutente")
+//	public List<Prenotazione> getPrenotazioniUtente(@RequestHeader("Authorization") String token) {
+//	    try {
+//	        JWTTools.isTokenValid(token);
+//	        String userEmail = JWTTools.extractSubject(token);
+//	        List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(userEmail);
+//	        return prenotazioni;
+//	    } catch (Exception e) {
+//	        // Gestione dell'eccezione
+//	    }
+//	    return new ArrayList<>(); // In caso di errore, ritorna una lista vuota
+//	}
+
 
 }

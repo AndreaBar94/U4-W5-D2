@@ -26,6 +26,7 @@ public class Prenotazione {
 	@ManyToOne
 	private User user;
 	
+	private String userEmail;
 	@ManyToOne
 	@JsonIgnore
 	private Postazione postazione;
@@ -39,6 +40,7 @@ public class Prenotazione {
 		this.postazione = postazione;
 		this.dataPrenotata = dataPrenotata;
 		this.dataPrenotazione = dataPrenotazione;
+		this.userEmail = user.getEmail();
 	}
 	
 	

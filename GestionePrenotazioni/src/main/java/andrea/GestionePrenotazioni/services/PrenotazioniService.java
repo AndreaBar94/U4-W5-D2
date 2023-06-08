@@ -39,7 +39,7 @@ public class PrenotazioniService {
 		return prenotazioniRepo.findById(id).orElseThrow(()-> new Exception("Prenotazione non trovata"));
 	}
 	
-	public List<Prenotazione> findByUserEmail(String email) {
+	public List<Prenotazione> findByUserEmail(String email) throws Exception{
 	    return prenotazioniRepo.findByUserEmail(email);
 	}
 	

@@ -1,5 +1,6 @@
 package andrea.GestionePrenotazioni.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -13,14 +14,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import andrea.GestionePrenotazioni.auth.JWTTools;
+import andrea.GestionePrenotazioni.entities.Prenotazione;
 import andrea.GestionePrenotazioni.entities.User;
 import andrea.GestionePrenotazioni.exceptions.NotFoundException;
 import andrea.GestionePrenotazioni.payloads.UserRegistrationPayload;
+import andrea.GestionePrenotazioni.services.PrenotazioniService;
 import andrea.GestionePrenotazioni.services.UsersService;
 
 
@@ -30,7 +35,10 @@ public class UsersController {
 	
 	@Autowired
 	UsersService usersService;
-
+	
+	@Autowired
+	PrenotazioniService prenotazioniService;
+	
 	// 1. - GET http://localhost:3001/users (+opzionalmente query params) <-- READ
 	@GetMapping("")
 	public Page<User> getUsers(@RequestParam(defaultValue = "0") int page,
@@ -68,6 +76,19 @@ public class UsersController {
 
 		usersService.findByIdAndDelete(userId);
 	}
-
+	
+	@GetMapping("/prenotazioniutente")
+	public List<Prenotazione> getPrenotazioniUtente(@RequestHeader("Authorization") String token) {
+	    try {
+	        JWTTools.isTokenValid(token);
+	        String userEmail = JWTTools.extractSubject(token);
+	        List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(userEmail);
+	        return prenotazioni;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return new ArrayList<>(); // In caso di errore, ritorna una lista vuota
+	}
+	
 }
 

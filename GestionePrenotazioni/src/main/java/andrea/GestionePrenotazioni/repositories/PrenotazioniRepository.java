@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import andrea.GestionePrenotazioni.entities.Prenotazione;
 
 @Repository
-public interface PrenotazioniRepository extends JpaRepository<Prenotazione, UUID>{
-	  List<Prenotazione> findByUserEmail(String email);
+public interface PrenotazioniRepository extends JpaRepository<Prenotazione, UUID> {
+    List<Prenotazione> findByUserEmail(String userEmail);
 }
+

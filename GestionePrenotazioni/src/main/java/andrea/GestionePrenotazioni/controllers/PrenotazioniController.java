@@ -49,10 +49,11 @@ public class PrenotazioniController {
 		return prenotazioniService.findById(prenotazioneId);
 	}
 
-	@GetMapping("/user/{userId}")
-	public List<Prenotazione> getPrenotazioniByUserEmail(@PathVariable String email) {
+	@GetMapping("/user/{email}")
+	public List<Prenotazione> getPrenotazioniByUserEmail(@PathVariable String email) throws Exception {
 	    return prenotazioniService.findByUserEmail(email);
 	}
+
 	
 	// 4. - PUT http://localhost:3001/users/:userId (+ req.body) <-- UPDATE
 	@PutMapping("/{prenotazioneId}")
