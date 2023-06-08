@@ -1,5 +1,6 @@
 package andrea.GestionePrenotazioni.auth;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,27 +62,16 @@ public class AuthController {
 	}
 	
 	@GetMapping("/prenotazioniutente")
-	public List<Prenotazione> getPrenotazioniUtente(@RequestHeader("Authorization") String token){
-		
-		String userEmail = JWTTools.extractSubject(token);
-		
-		List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(userEmail);
-		
-		return prenotazioni;
+	public List<Prenotazione> getPrenotazioniUtente(@RequestHeader("Authorization") String token) {
+	    try {
+	        JWTTools.isTokenValid(token);
+	        String userEmail = JWTTools.extractSubject(token);
+	        List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(userEmail);
+	        return prenotazioni;
+	    } catch (Exception e) {
+	        // Gestione dell'eccezione
+	    }
+	    return new ArrayList<>(); // In caso di errore, ritorna una lista vuota
 	}
-	
-//	private String getUserEmailFromToken(String token) {
-//		  try {
-//			  	
-//		        String userEmail = JWTTools.extractSubject(token);
-//
-//		        return userEmail;
-//		    } catch (SignatureException e) {
-//		        // Il token non è valido o la firma non corrisponde
-//		        throw new UnauthorizedException("Token JWT non valido");
-//		    } catch (Exception e) {
-//		        // Si è verificato un errore durante la decodifica del token
-//		        throw new UnauthorizedException("Errore nella decodifica del token JWT");
-//		    }
-//	}
+
 }
