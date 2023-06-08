@@ -43,6 +43,7 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 		
 		try {
 			User user = usersService.findByEmail(email);
+			
 			//una volta trovato l'utente lo aggiungo al SecurityContextHolder
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 			authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
@@ -56,7 +57,6 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 			//se non trova l'utente lancia un not found
 			e.printStackTrace();
 		}
-		
 		
 	}
 	

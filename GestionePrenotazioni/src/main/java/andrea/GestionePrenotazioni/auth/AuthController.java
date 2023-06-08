@@ -39,13 +39,6 @@ public class AuthController {
 	@Autowired
 	PrenotazioniService prenotazioniService;
 	
-	private static String secret;
-
-	@Value("${spring.application.jwt.secret}")
-	public void setSecret(String secretKey) {
-		secret = secretKey;
-	}
-	
 	@PostMapping("/register")
 	public ResponseEntity<User> register(@RequestBody @Validated UserRegistrationPayload body) {
 		User createdUser = usersService.create(body);
@@ -70,26 +63,25 @@ public class AuthController {
 	@GetMapping("/prenotazioniutente")
 	public List<Prenotazione> getPrenotazioniUtente(@RequestHeader("Authorization") String token){
 		
-		String email = getUserEmailFromToken(token);
+		String userEmail = JWTTools.extractSubject(token);
 		
-		List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(email);
+		List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(userEmail);
 		
 		return prenotazioni;
 	}
 	
-	private String getUserEmailFromToken(String token) {
-		  try {
-
-		        String userEmail = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build().parseClaimsJws(token)
-						.getBody().getSubject(); 
-
-		        return userEmail;
-		    } catch (SignatureException e) {
-		        // Il token non è valido o la firma non corrisponde
-		        throw new UnauthorizedException("Token JWT non valido");
-		    } catch (Exception e) {
-		        // Si è verificato un errore durante la decodifica del token
-		        throw new UnauthorizedException("Errore nella decodifica del token JWT");
-		    }
-	}
+//	private String getUserEmailFromToken(String token) {
+//		  try {
+//			  	
+//		        String userEmail = JWTTools.extractSubject(token);
+//
+//		        return userEmail;
+//		    } catch (SignatureException e) {
+//		        // Il token non è valido o la firma non corrisponde
+//		        throw new UnauthorizedException("Token JWT non valido");
+//		    } catch (Exception e) {
+//		        // Si è verificato un errore durante la decodifica del token
+//		        throw new UnauthorizedException("Errore nella decodifica del token JWT");
+//		    }
+//	}
 }
