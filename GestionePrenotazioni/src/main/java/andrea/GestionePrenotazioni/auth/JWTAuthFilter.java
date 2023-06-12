@@ -28,6 +28,8 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		
+		if (!request.getMethod().equals("OPTIONS")) {
 		//questo metodo verrà lanciato ad ogni request
 		//si inizia estraendo il token dall'header della richiesta
 		String authHeader = request.getHeader("Authorization");
@@ -56,6 +58,9 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 		}catch (NotFoundException e){
 			//se non trova l'utente lancia un not found
 			e.printStackTrace();
+		}
+		} else {
+			filterChain.doFilter(request, response);
 		}
 		
 	}

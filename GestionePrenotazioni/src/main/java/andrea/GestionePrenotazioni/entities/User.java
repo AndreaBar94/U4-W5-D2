@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -24,6 +25,8 @@ import lombok.NoArgsConstructor;
 @Table(name="users")
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties({ "password", "isAccountNonLocked", "isEnabled", "isCredentialsNonExpired",
+"authorities" })
 public class User implements UserDetails {
 	
 	@Id
@@ -35,6 +38,12 @@ public class User implements UserDetails {
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private Role role;
+	
+
+	private boolean isEnabled;
+	private boolean isCredentialsNonExpired;
+	private boolean isAccountNonExpired;
+	private boolean isAccountNonLocked;
 	
 	@OneToMany(mappedBy = "user")
 	@JsonIgnore
@@ -50,6 +59,10 @@ public class User implements UserDetails {
 		this.surname = surname;
 		this.email = email;
 		this.password = password;
+		this.isEnabled = true;
+		this.isAccountNonExpired = true;
+		this.isCredentialsNonExpired = true;
+		this.isAccountNonLocked = true;
 		this.role = Role.USER;
 	}
 	
@@ -67,26 +80,22 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isAccountNonExpired;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isAccountNonLocked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isCredentialsNonExpired;
 	}
 
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isEnabled;
 	}
 }
 

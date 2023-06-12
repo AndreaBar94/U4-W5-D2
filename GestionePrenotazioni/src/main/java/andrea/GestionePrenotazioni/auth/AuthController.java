@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,15 +35,19 @@ import io.jsonwebtoken.security.SignatureException;
 
 @RestController
 @RequestMapping("/auth")
+@CrossOrigin
 public class AuthController {
 	
 	@Autowired
 	UsersService usersService;
-//	@Autowired
-//	PrenotazioniService prenotazioniService;
+	
+	@Autowired
+	private PasswordEncoder bcrypt;
 	
 	@PostMapping("/register")
 	public ResponseEntity<User> register(@RequestBody @Validated UserRegistrationPayload body) {
+		body.setPassword(bcrypt.encode(body.getPassword()));
+
 		User createdUser = usersService.create(body);
 		return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 	}
@@ -53,26 +59,18 @@ public class AuthController {
 		User user = usersService.findByEmail(body.getEmail());
 		
 		//se la trovo faccio il check sulla password, se non corrisponde lancio errore 401
-		if(!body.getPassword().matches(user.getPassword())) throw new UnauthorizedException("Credenziali non valide");
+		//if(!body.getPassword().matches(user.getPassword())) throw new UnauthorizedException("Credenziali non valide");
+		String plainPW = body.getPassword();
+		String hashedPW = user.getPassword(); 
 		
+		if (!bcrypt.matches(plainPW, hashedPW))
+			throw new UnauthorizedException("Credenziali non valide");
 		//se corrisponde creo token
 		String token = JWTTools.createToken(user);
 		
 		return new ResponseEntity<>(new AuthenticationSuccessfullPayload(token), HttpStatus.OK);
 	}
 	
-//	@GetMapping("/prenotazioniutente")
-//	public List<Prenotazione> getPrenotazioniUtente(@RequestHeader("Authorization") String token) {
-//	    try {
-//	        JWTTools.isTokenValid(token);
-//	        String userEmail = JWTTools.extractSubject(token);
-//	        List<Prenotazione> prenotazioni = prenotazioniService.findByUserEmail(userEmail);
-//	        return prenotazioni;
-//	    } catch (Exception e) {
-//	        // Gestione dell'eccezione
-//	    }
-//	    return new ArrayList<>(); // In caso di errore, ritorna una lista vuota
-//	}
 
 
 }
