@@ -40,6 +40,8 @@ public class JWTAuthFilter extends OncePerRequestFilter{
 		//faccio il substring per saltare la stringa "Bearer " (7 caratteri) e ottengo il token pulito
 		String accesToken = authHeader.substring(7);
 		
+		JWTTools.isTokenValid(accesToken);
+		
 		//se va tutto bene lavoro sul token
 		String email = JWTTools.extractSubject(accesToken);
 		
